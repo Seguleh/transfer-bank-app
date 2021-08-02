@@ -2,6 +2,7 @@ class DashboardController < ApplicationController
     before_action :authenticate_user!
 
     def index
+        # Basci information for the user
         @user_list = User.where.not(id: current_user.id).pluck(:email)
         @transfer_list = Transfer.log(current_user)
     end
@@ -37,11 +38,13 @@ class DashboardController < ApplicationController
     private
 
     def start_transfer(from, to, amount)
+        # Atomic block transaction so everything is done correctly, if not just rollback
         Account.transaction do
             Account.tx(from, to, amount)
         end
         return true
     rescue Exception => ex
+        # Handle if something went wrong, tell the user, etc
         return false
     end
 

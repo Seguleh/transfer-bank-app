@@ -8,6 +8,7 @@ class Account < ApplicationRecord
 
     before_validation :set_account
 
+    # Setup the account, give it a unique identifier and some random balance
     def set_account
         if self.new_record?
             self.account_token = loop do 
@@ -33,6 +34,7 @@ class Account < ApplicationRecord
         save!
     end
 
+    # The whole send-balance process for parties involved
     def self.tx(from, to, amount)
         from.account.withdraw(amount)
         to.account.deposit(amount)
