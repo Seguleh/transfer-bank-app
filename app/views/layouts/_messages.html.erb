@@ -1,0 +1,12 @@
+<% flash.each do |key, value| %>
+  <% if value.length > 0 %>
+    <div class="row justify-content-md-center">
+      <div class="col-auto">
+        <div class="notice text-center">
+          <span><%= value %></span>
+          <button id="flash" class="close p-0">×</button>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
