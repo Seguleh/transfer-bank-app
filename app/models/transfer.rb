@@ -6,7 +6,7 @@ class Transfer < ApplicationRecord
   validates :amount, presence: true, numericality: {greater_than_or_equal_to: 0, message: "can't be negative"}
 
   def self.log(u)
-    (u.account.transfers.all + Transfer.where(to: u.email)).sort{|a,b| b.created_at <=> a.created_at }
+    u.account.transfers.all.or(self.where(to: u.email)).order("created_at desc")
   end
 
 end
